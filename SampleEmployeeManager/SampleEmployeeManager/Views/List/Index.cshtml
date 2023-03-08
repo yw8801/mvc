@@ -1,0 +1,102 @@
+﻿@model XSManager.Models.ListViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>一覧画面</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="Content/bootstrap.min.css">
+    <script src="Scripts/jquery-3.3.1.slim.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/datatables.min.css" />
+    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        @using (Html.BeginForm(
+        "Index",
+        "List",
+        null,
+        FormMethod.Post,
+        new { enctype = "multipart/form-data" }))
+        {
+            <div class="form-group">
+                <h2 class="text-primary">一覧画面</h2>
+                <hr />
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="pull-left">
+                        @Html.LabelFor(m => m.Position, new { @class = "col-md-3" })
+                        @Html.TextBoxFor(m => m.Position, new { @class = "col-md-3", @maxlength = 20 })
+                        <input name="Search" class="btn btn-lg btn-primary" type="submit" value="検索" />
+                    </div>
+
+                    <div class="pull-right">
+                        <input name="New" class="btn btn-primary btn-lg" type="submit" value="新規登録" />
+                    </div>
+                </div>
+            </div>
+            <table id="employeeTable" class="display" style="width:100%"></table>
+            <fotter class="footer navbar-fixed-bottom">
+                <hr />
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sample for Learning&nbsp;&nbsp;&nbsp; &copy; 2019 - <a href="url" target="_blank">Company Name here</a> </p>
+            </fotter>
+        }
+    </div>
+    <script language="javascript" type="text/javascript">
+        var employeesList = @Html.Raw(Json.Encode(ViewData["employeesList"]));
+        $(document).ready(function () {
+            $('#employeeTable').DataTable({
+                data: employeesList,
+                "searching": false,
+                "lengthMenu": [[8, 20, 50, -1], [8, 20, 50, "All"]],
+                columns: [
+                    { title: "社員ID", data: "Id" },
+                    { title: "名前", data: "Name" },
+                    { title: "職位", data: "Position" },
+                    { title: "入社時間", data: "StartDate" }
+                ],
+                columnDefs: [
+                    {
+                        targets: 0,
+                        render: function (data, type, row, meta) {
+                            if (type === 'display') {
+                                data = '<a href="Detail?id=' + encodeURIComponent(data) + '">' + data + '</a>';
+                            }
+                            return data;
+                        }
+                    }
+                ],
+                language: {
+                    "sEmptyTable": "テーブルにデータがありません",
+                    "sInfo": " _TOTAL_ 件中 _START_ から _END_ まで表示",
+                    "sInfoEmpty": " 0 件中 0 から 0 まで表示",
+                    "sInfoFiltered": "（全 _MAX_ 件より抽出）",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ",",
+                    "sLengthMenu": "_MENU_ 件表示",
+                    "sLoadingRecords": "読み込み中...",
+                    "sProcessing": "処理中...",
+                    "sSearch": "検索:",
+                    "sZeroRecords": "一致するレコードがありません",
+                    "oPaginate": {
+                        "sFirst": "先頭",
+                        "sLast": "最終",
+                        "sNext": "次",
+                        "sPrevious": "前"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": 列を昇順に並べ替えるにはアクティブにする",
+                        "sSortDescending": ": 列を降順に並べ替えるにはアクティブにする"
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

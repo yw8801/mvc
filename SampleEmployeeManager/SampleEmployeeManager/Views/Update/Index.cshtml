@@ -1,0 +1,96 @@
+﻿@model XSManager.Models.UpdateViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>更新画面</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="Content/bootstrap.min.css">
+    <script src="Scripts/jquery-3.3.1.slim.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        @using (Html.BeginForm(
+        "Index",
+        "Update",
+        null,
+        FormMethod.Post,
+        new { enctype = "multipart/form-data" }
+        ))
+        {
+            <div class="form-group">
+                <h2 class="text-primary">更新画面</h2>
+                <button type="button" class="btn btn-link" onclick="location.href='./List'">＜＜＜一覧へ戻る</button>
+                <hr />
+            </div>
+            <div class="form-group">
+                <p class="text-danger">@ViewData["Message"]</p>
+            </div>
+            @Html.ValidationSummary(true)
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(model => model.Id, new { @class = "col-md-2 text-secondary" })
+                    @Html.TextBoxFor(model => model.Id, new { @class = "col-md-4", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(model => model.Name, new { @class = "col-md-2 text-secondary" })
+                    @Html.TextBoxFor(model => model.Name, new { @class = "col-md-4", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(model => model.NewName, new { @class = "col-md-2" })
+                    @Html.TextBoxFor(model => model.NewName, new { @class = "col-md-4" })
+                    @Html.ValidationMessageFor(model => model.NewName)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(model => model.Position, new { @class = "col-md-2 text-secondary" })
+                    @Html.TextBoxFor(model => model.Position, new { @class = "col-md-4", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(model => model.NewPosition, new { @class = "col-md-2" })
+                    @Html.TextBoxFor(model => model.NewPosition, new { @class = "col-md-4" })
+                    @Html.ValidationMessageFor(model => model.NewPosition)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(model => model.StartDate, new { @class = "col-md-2 text-secondary" })
+                    @Html.TextBoxFor(model => model.StartDate, new { @class = "col-md-4", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(model => model.NewStartDate, new { @class = "col-md-2" })
+                    @Html.TextBoxFor(model => model.NewStartDate, new { @class = "col-md-4" })
+                    @Html.ValidationMessageFor(model => model.NewStartDate)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="Update" value="更新" class="btn btn-lg btn-primary" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <script language="javascript" type="text/javascript">
+        if(@Html.Raw(Json.Encode(ViewData["UpdatedFlag"]))){
+          $(':input').attr('readonly','readonly');
+          document.getElementsByName("Update")[0].disabled = true;
+        }
+    </script>
+</body>
+</html>
